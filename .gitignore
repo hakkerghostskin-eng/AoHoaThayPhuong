@@ -4,3 +4,5 @@ monitoring/grafana/data/
 .DS_Store
 monitoring/loki/data/
 monitoring/grafana/data/
+monitoring/loki/data/
+monitoring/grafana/data/

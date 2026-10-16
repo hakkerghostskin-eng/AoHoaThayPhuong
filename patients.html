@@ -1,0 +1,241 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bệnh nhân | MediCloud</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- THANH ĐIỀU HƯỚNG -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span>✚</span>
+                MediCloud
+            </div>
+
+            <p class="menu-title">QUẢN LÝ</p>
+
+            <a href="index.html" class="menu">
+                🏠
+                <span>Tổng quan</span>
+            </a>
+
+            <a href="patients.html" class="menu active">
+                👥
+                <span>Bệnh nhân</span>
+            </a>
+
+            <a href="doctors.html" class="menu">
+                👨‍⚕️
+                <span>Bác sĩ</span>
+            </a>
+
+            <a href="appointments.html" class="menu">
+                📅
+                <span>Lịch hẹn</span>
+            </a>
+
+            <a href="medical-records.html" class="menu">
+                📋
+                <span>Hồ sơ khám bệnh</span>
+            </a>
+
+            <p class="menu-title">HỆ THỐNG</p>
+
+            <a href="settings.html" class="menu">
+                ⚙️
+                <span>Cài đặt</span>
+            </a>
+
+            <a href="login.html" class="menu logout">
+                🚪
+                <span>Đăng xuất</span>
+            </a>
+
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH -->
+        <main class="main">
+
+            <!-- TIÊU ĐỀ TRANG -->
+            <header class="header">
+
+                <div>
+                    <h1>Bệnh nhân</h1>
+                    <p>Quản lý danh sách bệnh nhân và hồ sơ khám bệnh</p>
+                </div>
+
+                <div class="user">
+
+                    <div class="avatar">AD</div>
+
+                    <div>
+                        <strong>Admin</strong>
+                        <small>Quản trị viên</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- DANH SÁCH BỆNH NHÂN -->
+            <section class="card patient-card">
+
+                <div class="card-header">
+
+                    <h2>Danh sách bệnh nhân</h2>
+
+                    <input
+                        type="text"
+                        id="searchPatient"
+                        class="patient-search"
+                        placeholder="Tìm theo mã hoặc họ tên..."
+                        aria-label="Tìm kiếm bệnh nhân"
+                        autocomplete="off"
+                        oninput="searchPatients()"
+                    >
+
+                </div>
+
+                <!-- BẢNG DỮ LIỆU -->
+                <div class="patient-table-wrapper">
+
+                    <table class="patient-table">
+
+                        <thead>
+                            <tr>
+                                <th>Mã bệnh nhân</th>
+                                <th>Họ và tên</th>
+                                <th>Giới tính</th>
+                                <th>Ngày sinh</th>
+                                <th>Số điện thoại</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="patientTable">
+
+                            <!-- BỆNH NHÂN 001 -->
+                            <tr>
+                                <td><strong>BN001</strong></td>
+                                <td>Nguyễn Văn A</td>
+                                <td>Nam</td>
+                                <td>15/05/1995</td>
+                                <td>0901234567</td>
+                                <td>
+                                    <span class="status success">
+                                        Đang điều trị
+                                    </span>
+                                </td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="view-record-btn"
+                                        onclick="viewMedicalRecord('BN001')"
+                                    >
+                                        📋 Xem hồ sơ
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- BỆNH NHÂN 002 -->
+                            <tr>
+                                <td><strong>BN002</strong></td>
+                                <td>Trần Thị B</td>
+                                <td>Nữ</td>
+                                <td>22/08/1998</td>
+                                <td>0912345678</td>
+                                <td>
+                                    <span class="status success">
+                                        Đang điều trị
+                                    </span>
+                                </td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="view-record-btn"
+                                        onclick="viewMedicalRecord('BN002')"
+                                    >
+                                        📋 Xem hồ sơ
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- BỆNH NHÂN 003 -->
+                            <tr>
+                                <td><strong>BN003</strong></td>
+                                <td>Lê Văn C</td>
+                                <td>Nam</td>
+                                <td>10/11/1992</td>
+                                <td>0987654321</td>
+                                <td>
+                                    <span class="status warning">
+                                        Tái khám
+                                    </span>
+                                </td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="view-record-btn"
+                                        onclick="viewMedicalRecord('BN003')"
+                                    >
+                                        📋 Xem hồ sơ
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- BỆNH NHÂN 004 -->
+                            <tr>
+                                <td><strong>BN004</strong></td>
+                                <td>Phạm Thị D</td>
+                                <td>Nữ</td>
+                                <td>05/03/2000</td>
+                                <td>0977123456</td>
+                                <td>
+                                    <span class="status success">
+                                        Đang điều trị
+                                    </span>
+                                </td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="view-record-btn"
+                                        onclick="viewMedicalRecord('BN004')"
+                                    >
+                                        📋 Xem hồ sơ
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- CẤU HÌNH VÀ KẾT NỐI BACKEND -->
+    <script src="js/runtime-config.js"></script>
+    <script src="js/backend-adapter.js"></script>
+    <script src="js/patients-page.js"></script>
+
+</body>
+
+</html>
+```

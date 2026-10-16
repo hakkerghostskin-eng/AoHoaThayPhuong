@@ -1,0 +1,63 @@
+services:
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: medicloud-loki
+    command: -config.file=/etc/loki/loki-config.yml
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - /home/a/Downloads/MediCloud/monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - /home/a/Downloads/MediCloud/monitoring/loki/data:/loki
+    networks:
+      - monitoring-net
+    mem_limit: 384m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  alloy:
+    image: grafana/alloy:v1.11.0
+    container_name: medicloud-alloy
+    command: run --server.http.listen-addr=0.0.0.0:12345 /etc/alloy/config.alloy
+    volumes:
+      - /home/a/Downloads/MediCloud/monitoring/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - monitoring-net
+    depends_on:
+      - loki
+    mem_limit: 128m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: medicloud-grafana
+    ports:
+      - "3002:3000"  # Đổi từ 3001 thành 3002 để tránh mọi xung đột tiềm ẩn
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    networks:
+      - monitoring-net
+    depends_on:
+      - loki
+    mem_limit: 256m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  monitoring-net:
+    name: medicloud-monitoring
+    driver: bridge
+    # Xóa hoặc comment dòng: internal: true

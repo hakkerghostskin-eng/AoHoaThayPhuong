@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCloud - Quản lý phòng khám</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span>✚</span>
+                MediCloud
+            </div>
+
+            <p class="menu-title">QUẢN LÝ</p>
+
+            <a href="index.html" class="menu active">
+                🏠
+                <span>Tổng quan</span>
+            </a>
+
+            <a href="patients.html" class="menu">
+                👤
+                <span>Bệnh nhân</span>
+            </a>
+
+            <a href="doctors.html" class="menu">
+                👨‍⚕️
+                <span>Bác sĩ</span>
+            </a>
+
+            <a href="appointments.html" class="menu">
+                📅
+                <span>Lịch hẹn</span>
+            </a>
+
+            <a href="medical-records.html" class="menu">
+                📋
+                <span>Hồ sơ khám bệnh</span>
+            </a>
+
+            <p class="menu-title">HỆ THỐNG</p>
+
+            <a href="#" class="menu">
+                ⚙️
+                <span>Cài đặt</span>
+            </a>
+
+            <a href="login.html" class="menu logout">
+                🚪
+                <span>Đăng xuất</span>
+            </a>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- HEADER -->
+            <header class="header">
+
+                <div>
+                    <h1>Tổng quan</h1>
+                    <p>Chào mừng bạn đến với hệ thống MediCloud</p>
+                </div>
+
+                <div class="user">
+                    <div class="avatar">AD</div>
+
+                    <div>
+                        <strong>Admin</strong>
+                        <small>Quản trị viên</small>
+                    </div>
+                </div>
+
+            </header>
+
+
+            <!-- STATISTICS -->
+            <section class="stats">
+
+                <div class="stat-card">
+                    <div class="icon blue">👥</div>
+
+                    <div>
+                        <p>Tổng bệnh nhân</p>
+                        <h2>1,248</h2>
+                        <span class="increase">↑ 12.5%</span>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="icon green">👨‍⚕️</div>
+
+                    <div>
+                        <p>Bác sĩ</p>
+                        <h2>48</h2>
+                        <span class="increase">↑ 4.2%</span>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="icon orange">📅</div>
+
+                    <div>
+                        <p>Lịch hẹn hôm nay</p>
+                        <h2>86</h2>
+                        <span class="increase">↑ 8.7%</span>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="icon purple">💰</div>
+
+                    <div>
+                        <p>Doanh thu</p>
+                        <h2>128M</h2>
+                        <span class="increase">↑ 15.3%</span>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- CONTENT -->
+            <section class="content-grid">
+
+                <!-- APPOINTMENTS -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <h2>Lịch hẹn hôm nay</h2>
+
+                        <a href="appointments.html">
+                            Xem tất cả →
+                        </a>
+                    </div>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Bệnh nhân</th>
+                                <th>Bác sĩ</th>
+                                <th>Thời gian</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Nguyễn Văn An</td>
+                                <td>BS. Trần Minh</td>
+                                <td>08:30</td>
+                                <td>
+                                    <span class="status success">
+                                        Đã xác nhận
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Trần Thị Lan</td>
+                                <td>BS. Nguyễn Hà</td>
+                                <td>09:00</td>
+                                <td>
+                                    <span class="status warning">
+                                        Chờ xác nhận
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Lê Văn Bình</td>
+                                <td>BS. Phạm Nam</td>
+                                <td>10:30</td>
+                                <td>
+                                    <span class="status success">
+                                        Đã xác nhận
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Phạm Thị Hoa</td>
+                                <td>BS. Lê Anh</td>
+                                <td>13:30</td>
+                                <td>
+                                    <span class="status danger">
+                                        Đã hủy
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- MICROSERVICES -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <h2>Microservices</h2>
+                    </div>
+
+                    <div class="services">
+
+                        <div class="service">
+                            <span class="dot online"></span>
+
+                            <div>
+                                <strong>Patient Service</strong>
+                                <small>Quản lý bệnh nhân</small>
+                            </div>
+
+                            <span class="service-status">
+                                Online
+                            </span>
+                        </div>
+
+
+                        <div class="service">
+                            <span class="dot online"></span>
+
+                            <div>
+                                <strong>Doctor Service</strong>
+                                <small>Quản lý bác sĩ</small>
+                            </div>
+
+                            <span class="service-status">
+                                Online
+                            </span>
+                        </div>
+
+
+                        <div class="service">
+                            <span class="dot online"></span>
+
+                            <div>
+                                <strong>Appointment Service</strong>
+                                <small>Quản lý lịch hẹn</small>
+                            </div>
+
+                            <span class="service-status">
+                                Online
+                            </span>
+                        </div>
+
+
+                        <div class="service">
+                            <span class="dot warning-dot"></span>
+
+                            <div>
+                                <strong>Medical Record</strong>
+                                <small>Hồ sơ khám bệnh</small>
+                            </div>
+
+                            <span class="service-status warning-text">
+                                Warning
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

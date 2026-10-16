@@ -1,0 +1,14 @@
+{
+  "name": "medicloud-auth-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Authentication service for MediCloud Docker project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}

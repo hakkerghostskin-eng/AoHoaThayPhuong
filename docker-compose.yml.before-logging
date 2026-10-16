@@ -1,0 +1,201 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medicloud-frontend
+    restart: unless-stopped
+    environment:
+      BACKEND_PROVIDER: ${BACKEND_PROVIDER:-local}
+      API_BASE_URL: ${API_BASE_URL:-/api}
+      SUPABASE_URL: ""
+      SUPABASE_ANON_KEY: ""
+      FIREBASE_API_KEY: ""
+      FIREBASE_PROJECT_ID: ""
+      FIREBASE_DATABASE_URL: ""
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-edge
+    volumes:
+      - ./index.html:/app/index.html:ro
+      - ./login.html:/app/login.html:ro
+      - ./patients.html:/app/patients.html:ro
+      - ./appointments.html:/app/appointments.html:ro
+      - ./medical-records.html:/app/medical-records.html:ro
+      - ./doctors.html:/app/doctors.html:ro
+      - ./css:/app/css:ro
+      - ./js:/app/js
+
+  gateway-service:
+    build:
+      context: ./services/gateway-service
+      dockerfile: Dockerfile
+    container_name: medicloud-gateway
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      AUTH_SERVICE_URL: http://auth-service:3001
+      PATIENT_SERVICE_URL: http://patient-service:3002
+      APPOINTMENT_SERVICE_URL: http://appointment-service:3003
+      MEDICAL_RECORD_SERVICE_URL: http://medical-record-service:3004
+    ports:
+      - "${GATEWAY_PORT:-3000}:3000"
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      patient-service:
+        condition: service_healthy
+      appointment-service:
+        condition: service_healthy
+      medical-record-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-edge
+      - medicloud-data
+    volumes:
+      - ./services/gateway-service:/app
+      - /app/node_modules
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: medicloud-auth
+    restart: unless-stopped
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgres://${POSTGRES_USER:-medicloud}:${POSTGRES_PASSWORD:-medicloud123}@postgres:5432/${POSTGRES_DB:-medicloud}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-data
+    volumes:
+      - ./services/auth-service:/app
+      - /app/node_modules
+
+  patient-service:
+    build:
+      context: ./services/patient-service
+      dockerfile: Dockerfile
+    container_name: medicloud-patient
+    restart: unless-stopped
+    environment:
+      PORT: 3002
+      DATABASE_URL: postgres://${POSTGRES_USER:-medicloud}:${POSTGRES_PASSWORD:-medicloud123}@postgres:5432/${POSTGRES_DB:-medicloud}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3002/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-data
+    volumes:
+      - ./services/patient-service:/app
+      - /app/node_modules
+
+  appointment-service:
+    build:
+      context: ./services/appointment-service
+      dockerfile: Dockerfile
+    container_name: medicloud-appointment
+    restart: unless-stopped
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgres://${POSTGRES_USER:-medicloud}:${POSTGRES_PASSWORD:-medicloud123}@postgres:5432/${POSTGRES_DB:-medicloud}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3003/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-data
+    volumes:
+      - ./services/appointment-service:/app
+      - /app/node_modules
+
+  medical-record-service:
+    build:
+      context: ./services/medical-record-service
+      dockerfile: Dockerfile
+    container_name: medicloud-medical-record
+    restart: unless-stopped
+    environment:
+      PORT: 3004
+      DATABASE_URL: postgres://${POSTGRES_USER:-medicloud}:${POSTGRES_PASSWORD:-medicloud123}@postgres:5432/${POSTGRES_DB:-medicloud}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3004/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - medicloud-data
+    volumes:
+      - ./services/medical-record-service:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: medicloud-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-medicloud}
+      POSTGRES_USER: ${POSTGRES_USER:-medicloud}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-medicloud123}
+      PGDATA: ${PGDATA:-/var/lib/postgresql/data/pgdata}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medicloud} -d ${POSTGRES_DB:-medicloud}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - medicloud-data
+    volumes:
+      - medicloud_postgres_data:${PGDATA:-/var/lib/postgresql/data/pgdata}
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+
+networks:
+  medicloud-edge:
+    driver: bridge
+  medicloud-data:
+    driver: bridge
+
+volumes:
+  medicloud_postgres_data:

@@ -1,0 +1,8 @@
+.git
+node_modules
+**/node_modules
+**/npm-debug.log
+.trae
+.env
+mock-api
+docker-compose.override.yml

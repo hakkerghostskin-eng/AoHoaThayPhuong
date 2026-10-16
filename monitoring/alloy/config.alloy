@@ -1,0 +1,44 @@
+local.file_match "docker_logs" {
+  path_targets = [
+    {
+      "__path__" = "/var/lib/docker/containers/*/*-json.log",
+      "job"      = "docker",
+    },
+  ]
+  sync_period = "10s"
+}
+
+loki.source.file "docker_logs" {
+  targets    = local.file_match.docker_logs.targets
+  forward_to = [loki.process.docker_logs.receiver]
+}
+
+loki.process "docker_logs" {
+  stage.json {
+    expressions = {
+      log    = "log",
+      stream = "stream",
+      time   = "time",
+    }
+  }
+
+  stage.regex {
+    source     = "filename"
+    expression = "/var/lib/docker/containers/(?P<container_id>[a-f0-9]+)/"
+  }
+
+  stage.labels {
+    values = {
+      container_id = "container_id",
+      stream       = "stream",
+    }
+  }
+
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Đăng nhập | MediCloud</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        /* =====================================
+           LOGIN PAGE
+        ===================================== */
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(59, 130, 246, 0.15),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(16, 185, 129, 0.12),
+                    transparent 30%
+                ),
+                #f6f8fc;
+        }
+
+
+        .login-page {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+
+        .login-container {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 600px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: white;
+
+            border-radius: 24px;
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px
+                rgba(15, 23, 42, 0.12);
+
+            border:
+                1px solid #e8edf5;
+        }
+
+
+        /* =====================================
+           LEFT
+        ===================================== */
+
+        .login-intro {
+            position: relative;
+
+            padding: 55px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1d4ed8,
+                    #2563eb 50%,
+                    #0ea5e9
+                );
+
+            overflow: hidden;
+        }
+
+
+        .login-intro::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            top: -100px;
+            right: -100px;
+        }
+
+
+        .login-intro::after {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            bottom: -100px;
+            left: -80px;
+        }
+
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 70px;
+        }
+
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            font-size: 25px;
+            font-weight: 800;
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+
+        .login-intro h1 {
+            font-size: 38px;
+            line-height: 1.2;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .login-intro > .intro-content > p {
+            max-width: 400px;
+
+            color:
+                rgba(255, 255, 255, 0.78);
+
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+
+        /* FEATURES */
+
+        .features {
+            margin-top: 40px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        .feature {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .feature-icon {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.13);
+        }
+
+
+        .feature span:last-child {
+            font-size: 12px;
+
+            color:
+                rgba(255, 255, 255, 0.85);
+        }
+
+
+        /* =====================================
+           RIGHT LOGIN FORM
+        ===================================== */
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+
+            padding: 55px;
+        }
+
+
+        .form-header {
+            margin-bottom: 35px;
+        }
+
+
+        .form-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+
+            margin-bottom: 8px;
+
+            color: #172033;
+        }
+
+
+        .form-header p {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+
+        /* INPUT */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #334155;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        .input-wrapper {
+            position: relative;
+        }
+
+
+        .input-icon {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #94a3b8;
+
+            font-size: 15px;
+        }
+
+
+        .form-input {
+            width: 100%;
+            height: 46px;
+
+            padding:
+                0 15px 0 42px;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #f8fafc;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            color: #172033;
+
+            transition: 0.2s;
+        }
+
+
+        .form-input:focus {
+            background: white;
+
+            border-color:
+                #3b82f6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(59, 130, 246, 0.10);
+        }
+
+
+        .form-input::placeholder {
+            color: #a0aec0;
+        }
+
+
+        /* PASSWORD */
+
+        .password-toggle {
+            position: absolute;
+
+            right: 13px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           ERROR MESSAGE
+        ===================================== */
+
+        .login-error {
+            display: none;
+
+            margin-top: -5px;
+            margin-bottom: 15px;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #dc2626;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .login-success {
+            display: none;
+
+            margin-top: -5px;
+            margin-bottom: 15px;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            color: #16a34a;
+
+            font-size: 12px;
+        }
+
+
+        /* OPTIONS */
+
+        .form-options {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin:
+                5px 0 25px;
+        }
+
+
+        .remember {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            cursor: pointer;
+        }
+
+
+        .remember input {
+            accent-color:
+                #2563eb;
+        }
+
+
+        .forgot {
+            color:
+                #2563eb;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+
+        /* BUTTON */
+
+        .login-button {
+            width: 100%;
+            height: 48px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(37, 99, 235, 0.22);
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .login-button:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(37, 99, 235, 0.30);
+        }
+
+
+        .login-button:active {
+            transform:
+                translateY(0);
+        }
+
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+        /* DIVIDER */
+
+        .divider {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 28px 0;
+
+            color: #cbd5e1;
+
+            font-size: 10px;
+        }
+
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #e8edf5;
+        }
+
+
+        /* REGISTER */
+
+        .register {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        .register a {
+            color: #2563eb;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* SECURITY */
+
+        .security {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 30px;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================
+           DEMO ACCOUNT
+        ===================================== */
+
+        .demo-account {
+            margin-top: 20px;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color: #64748b;
+        }
+
+
+        .demo-account strong {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #334155;
+        }
+
+
+        .demo-account p {
+            margin: 3px 0;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 800px) {
+
+            .login-container {
+                grid-template-columns: 1fr;
+
+                max-width: 500px;
+            }
+
+
+            .login-intro {
+                display: none;
+            }
+
+
+            .login-form {
+                padding: 40px 30px;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .login-page {
+                padding: 15px;
+            }
+
+
+            .login-form {
+                padding: 35px 25px;
+            }
+
+
+            .form-header h2 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-container">
+
+
+        <!-- =================================
+             INTRODUCTION
+        ================================= -->
+
+        <section class="login-intro">
+
+            <div class="intro-content">
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        ✚
+                    </div>
+
+                    <div class="brand-name">
+                        MediCloud
+                    </div>
+
+                </div>
+
+
+                <h1>
+                    Quản lý phòng khám
+                    <br>
+                    thông minh hơn.
+                </h1>
+
+
+                <p>
+                    Nền tảng quản lý phòng khám
+                    hiện đại giúp kết nối bác sĩ,
+                    bệnh nhân và các dịch vụ y tế
+                    trên một hệ thống duy nhất.
+                </p>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            🏥
+                        </div>
+
+                        <span>
+                            Quản lý bệnh nhân tập trung
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            👨‍⚕️
+                        </div>
+
+                        <span>
+                            Quản lý bác sĩ và chuyên khoa
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            🔒
+                        </div>
+
+                        <span>
+                            Bảo mật dữ liệu y tế
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ☁️
+                        </div>
+
+                        <span>
+                            Hệ thống Microservices hiện đại
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             LOGIN FORM
+        ================================= -->
+
+        <section class="login-form">
+
+
+            <div class="form-header">
+
+                <h2>
+                    Chào mừng trở lại 👋
+                </h2>
+
+                <p>
+                    Đăng nhập để truy cập hệ thống MediCloud
+                </p>
+
+            </div>
+
+
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            class="form-input"
+                            placeholder="Nhập email của bạn"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Mật khẩu
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            class="form-input"
+                            placeholder="Nhập mật khẩu"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Hiện mật khẩu"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div
+                    id="loginError"
+                    class="login-error">
+                </div>
+
+
+                <!-- SUCCESS -->
+
+                <div
+                    id="loginSuccess"
+                    class="login-success">
+                </div>
+
+
+
+                <!-- OPTIONS -->
+
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        Ghi nhớ đăng nhập
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        onclick="forgotPassword(event)"
+                    >
+                        Quên mật khẩu?
+                    </a>
+
+                </div>
+
+
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    id="loginButton"
+                    class="login-button"
+                >
+                    Đăng nhập
+                </button>
+
+
+            </form>
+
+
+
+            <div class="divider">
+                HOẶC
+            </div>
+
+
+            <div class="register">
+
+                Chưa có tài khoản?
+
+                <a
+                    href="#"
+                    onclick="contactAdmin(event)"
+                >
+                    Liên hệ quản trị viên
+                </a>
+
+            </div>
+
+
+            <!-- DEMO ACCOUNT -->
+
+            <div class="demo-account">
+
+                <strong>
+                    🔑 Tài khoản Admin Demo
+                </strong>
+
+                <p>
+                    Email:
+                    <b>admin@medicloud.com</b>
+                </p>
+
+                <p>
+                    Mật khẩu:
+                    <b>123456</b>
+                </p>
+
+            </div>
+
+
+            <div class="security">
+
+                🔒
+
+                Kết nối được bảo mật bằng hệ thống MediCloud
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+
+<script src="js/runtime-config.js"></script>
+<script src="js/backend-adapter.js"></script>
+<script src="js/login-page.js"></script>
+<script>
+
+/* =====================================
+   HIỆN / ẨN MẬT KHẨU
+===================================== */
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+
+    const button =
+        document.querySelector(
+            ".password-toggle"
+        );
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        button.textContent = "🙈";
+
+    } else {
+
+        password.type = "password";
+
+        button.textContent = "👁";
+
+    }
+
+}
+
+
+
+/* =====================================
+   QUÊN MẬT KHẨU
+===================================== */
+
+function forgotPassword(event) {
+
+    event.preventDefault();
+
+    alert(
+        "Vui lòng liên hệ quản trị viên để được cấp lại mật khẩu."
+    );
+
+}
+
+
+
+/* =====================================
+   LIÊN HỆ QUẢN TRỊ VIÊN
+===================================== */
+
+function contactAdmin(event) {
+
+    event.preventDefault();
+
+    alert(
+        "Vui lòng liên hệ quản trị viên MediCloud để tạo tài khoản."
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

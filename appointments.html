@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCloud - Quản lý lịch hẹn</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* CSS rieng cho trang Lich hen; giu bo cuc chung tu Home */
+        .appointment-page { padding-bottom: 32px; }
+        .appointment-page .page-heading {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 16px; flex-wrap: wrap; margin: 0 0 22px;
+        }
+        .appointment-page .page-heading h2 {
+            margin: 0 0 6px; color: #1e293b; font-size: 22px;
+        }
+        .appointment-page .page-heading p {
+            margin: 0; color: #64748b; font-size: 14px;
+        }
+        .appointment-page .primary-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; padding: 11px 16px; border: 0; border-radius: 8px;
+            background: #2563eb; color: #fff; font-size: 14px; font-weight: 600;
+            text-decoration: none; cursor: pointer;
+        }
+        .appointment-page .primary-btn:hover { background: #1d4ed8; }
+        .appointment-page .summary-grid {
+            display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px; margin-bottom: 22px;
+        }
+        .appointment-page .summary-card {
+            display: flex; align-items: center; gap: 14px; min-width: 0;
+            padding: 18px; background: #fff; border: 1px solid #e2e8f0;
+            border-radius: 12px; box-shadow: 0 2px 8px rgba(15,23,42,.03);
+        }
+        .appointment-page .summary-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 44px; height: 44px; flex: 0 0 44px; border-radius: 10px;
+            background: #dbeafe; font-size: 21px;
+        }
+        .appointment-page .summary-card p { margin: 0 0 5px; color: #64748b; font-size: 13px; }
+        .appointment-page .summary-card h3 { margin: 0; color: #1e293b; font-size: 24px; }
+        .appointment-page .filter-panel {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+            padding: 16px; margin-bottom: 18px; background: #fff;
+            border: 1px solid #e2e8f0; border-radius: 12px;
+        }
+        .appointment-page .filter-panel input,
+        .appointment-page .filter-panel select {
+            min-height: 40px; padding: 9px 12px; border: 1px solid #cbd5e1;
+            border-radius: 8px; background: #fff; color: #334155; font: inherit;
+            font-size: 14px; outline: none;
+        }
+        .appointment-page .filter-panel input { flex: 1 1 220px; min-width: 180px; }
+        .appointment-page .filter-panel select { flex: 0 1 180px; }
+        .appointment-page .filter-panel input:focus,
+        .appointment-page .filter-panel select:focus {
+            border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+        }
+        .appointment-page .table-card {
+            min-width: 0; overflow: hidden; background: #fff;
+            border: 1px solid #e2e8f0; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(15,23,42,.03);
+        }
+        .appointment-page .table-heading {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; padding: 18px 20px; border-bottom: 1px solid #e2e8f0;
+        }
+        .appointment-page .table-heading h2 { margin: 0; font-size: 17px; color: #1e293b; }
+        .appointment-page .table-heading span { color: #64748b; font-size: 13px; }
+        .appointment-page .table-scroll { width: 100%; overflow-x: auto; }
+        .appointment-page table { width: 100%; min-width: 850px; border-collapse: collapse; }
+        .appointment-page thead { background: #f8fafc; }
+        .appointment-page th {
+            padding: 14px 16px; text-align: left; white-space: nowrap;
+            color: #64748b; font-size: 11px; letter-spacing: .4px;
+            font-weight: 700; border-bottom: 1px solid #e2e8f0;
+        }
+        .appointment-page td {
+            padding: 15px 16px; color: #334155; font-size: 13px;
+            border-bottom: 1px solid #f1f5f9; vertical-align: middle;
+        }
+        .appointment-page tbody tr:hover { background: #f8fbff; }
+        .appointment-page tbody tr:last-child td { border-bottom: 0; }
+        .appointment-page .patient-cell strong,
+        .appointment-page .patient-cell small,
+        .appointment-page .doctor-cell strong,
+        .appointment-page .doctor-cell small { display: block; }
+        .appointment-page .patient-cell strong,
+        .appointment-page .doctor-cell strong { margin-bottom: 4px; color: #1e293b; }
+        .appointment-page .patient-cell small,
+        .appointment-page .doctor-cell small { color: #64748b; font-size: 12px; }
+        .appointment-page .doctor-avatar {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; margin-right: 9px; vertical-align: middle;
+            border-radius: 10px; background: #dbeafe; color: #2563eb; font-weight: 700;
+        }
+        .appointment-page .status {
+            display: inline-flex; align-items: center; padding: 5px 10px;
+            border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap;
+        }
+        .appointment-page .status.success { color: #166534; background: #dcfce7; }
+        .appointment-page .status.warning { color: #92400e; background: #fef3c7; }
+        .appointment-page .status.danger { color: #991b1b; background: #fee2e2; }
+        .appointment-page .status.info { color: #1d4ed8; background: #dbeafe; }
+        .appointment-page .row-actions { display: flex; align-items: center; gap: 6px; }
+        .appointment-page .row-actions button {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; border: 1px solid #e2e8f0;
+            border-radius: 7px; background: #fff; cursor: pointer; font-size: 14px;
+        }
+        .appointment-page .row-actions button:hover { background: #eff6ff; border-color: #bfdbfe; }
+        .appointment-page .table-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; flex-wrap: wrap; padding: 15px 20px;
+            border-top: 1px solid #e2e8f0; color: #64748b; font-size: 13px;
+        }
+        .appointment-page .pagination { display: flex; gap: 6px; }
+        .appointment-page .pagination button {
+            min-width: 32px; height: 32px; border: 1px solid #e2e8f0;
+            border-radius: 7px; background: #fff; color: #475569; cursor: pointer;
+        }
+        .appointment-page .pagination button.active {
+            border-color: #2563eb; background: #2563eb; color: #fff;
+        }
+        .appointment-page .empty-state { padding: 28px; text-align: center; color: #64748b; }
+        .appointment-page .modal-backdrop {
+            position: fixed; inset: 0; z-index: 2000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
+            background: rgba(15,23,42,.45);
+        }
+        .appointment-page .modal-backdrop.open { display: flex; }
+        .appointment-page .modal {
+            width: min(540px, 100%); max-height: 90vh; overflow-y: auto;
+            padding: 24px; background: #fff; border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(15,23,42,.2);
+        }
+        .appointment-page .modal h2 { margin: 0 0 18px; font-size: 20px; }
+        .appointment-page .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .appointment-page .form-field { display: flex; flex-direction: column; gap: 6px; }
+        .appointment-page .form-field.full { grid-column: 1 / -1; }
+        .appointment-page .form-field label { color: #475569; font-size: 13px; font-weight: 600; }
+        .appointment-page .form-field input,
+        .appointment-page .form-field select,
+        .appointment-page .form-field textarea {
+            width: 100%; min-height: 40px; padding: 9px 11px; box-sizing: border-box;
+            border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; font-size: 14px;
+        }
+        .appointment-page .form-field textarea { min-height: 76px; resize: vertical; }
+        .appointment-page .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+        .appointment-page .secondary-btn {
+            padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 8px;
+            background: #fff; color: #334155; cursor: pointer;
+        }
+        @media (max-width: 1100px) {
+            .appointment-page .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 700px) {
+            .appointment-page .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .appointment-page .summary-card { padding: 12px; gap: 9px; }
+            .appointment-page .summary-icon { width: 36px; height: 36px; flex-basis: 36px; }
+            .appointment-page .summary-card h3 { font-size: 20px; }
+            .appointment-page .filter-panel { align-items: stretch; flex-direction: column; }
+            .appointment-page .filter-panel input,
+            .appointment-page .filter-panel select { width: 100%; min-width: 0; flex-basis: auto; }
+            .appointment-page .form-grid { grid-template-columns: 1fr; }
+            .appointment-page .form-field.full { grid-column: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- SIDEBAR: dung cung cau truc voi trang Home -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span>✚</span>
+                MediCloud
+            </div>
+            <p class="menu-title">QUẢN LÝ</p>
+            <a href="index.html" class="menu">
+                🏠 <span>Tổng quan</span>
+            </a>
+            <a href="patients.html" class="menu">
+                👤 <span>Bệnh nhân</span>
+            </a>
+            <a href="doctors.html" class="menu">
+                👨‍⚕️ <span>Bác sĩ</span>
+            </a>
+            <a href="appointments.html" class="menu active" aria-current="page">
+                📅 <span>Lịch hẹn</span>
+            </a>
+            <a href="medical-records.html" class="menu">
+                📋 <span>Hồ sơ khám bệnh</span>
+            </a>
+            <p class="menu-title">HỆ THỐNG</p>
+            <a href="#" class="menu">
+                ⚙️ <span>Cài đặt</span>
+            </a>
+            <a href="login.html" class="menu logout">
+                🚪 <span>Đăng xuất</span>
+            </a>
+        </aside>
+
+        <main class="main">
+            <header class="header">
+                <div>
+                    <h1>Lịch hẹn</h1>
+                    <p>Quản lý và theo dõi lịch khám của bệnh nhân</p>
+                </div>
+                <div class="user">
+                    <div class="avatar">AD</div>
+                    <div>
+                        <strong>Admin</strong>
+                        <small>Quản trị viên</small>
+                    </div>
+                </div>
+            </header>
+
+            <div class="appointment-page">
+                <section class="page-heading">
+                    <div>
+                        <h2>Danh sách lịch hẹn</h2>
+                        <p>Xem, tìm kiếm và quản lý các cuộc hẹn khám bệnh.</p>
+                    </div>
+                    <button class="primary-btn" id="addAppointmentBtn" type="button">＋ Thêm lịch hẹn</button>
+                </section>
+
+                <section class="summary-grid" aria-label="Thống kê lịch hẹn">
+                    <div class="summary-card">
+                        <div class="summary-icon">📅</div>
+                        <div><p>Tổng lịch hẹn</p><h3 id="totalCount">6</h3></div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">⏳</div>
+                        <div><p>Chờ xác nhận</p><h3 id="pendingCount">1</h3></div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">✅</div>
+                        <div><p>Đã xác nhận</p><h3 id="confirmedCount">3</h3></div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">❌</div>
+                        <div><p>Đã hủy</p><h3 id="cancelledCount">1</h3></div>
+                    </div>
+                </section>
+
+                <section class="filter-panel" aria-label="Tìm kiếm và lọc lịch hẹn">
+                    <input id="searchInput" type="search" placeholder="Tìm bệnh nhân, bác sĩ..." aria-label="Tìm kiếm">
+                    <select id="statusFilter" aria-label="Lọc theo trạng thái">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="confirmed">Đã xác nhận</option>
+                        <option value="pending">Chờ xác nhận</option>
+                        <option value="completed">Đã khám</option>
+                        <option value="cancelled">Đã hủy</option>
+                    </select>
+                    <select id="dateFilter" aria-label="Lọc theo ngày">
+                        <option value="">Tất cả thời gian</option>
+                        <option value="today">Hôm nay</option>
+                        <option value="upcoming">Sắp tới</option>
+                    </select>
+                </section>
+
+                <section class="table-card">
+                    <div class="table-heading">
+                        <h2>Danh sách cuộc hẹn</h2>
+                        <span id="resultCount">6 lịch hẹn</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>BỆNH NHÂN</th>
+                                    <th>THỜI GIAN</th>
+                                    <th>BÁC SĨ</th>
+                                    <th>CHUYÊN KHOA</th>
+                                    <th>LÝ DO KHÁM</th>
+                                    <th>TRẠNG THÁI</th>
+                                    <th>THAO TÁC</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentRows"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <span id="tableInfo">Hiển thị 6 lịch hẹn</span>
+                        <div class="pagination" aria-label="Phân trang">
+                            <button type="button" aria-label="Trang trước" disabled>‹</button>
+                            <button type="button" class="active" aria-current="page">1</button>
+                            <button type="button" aria-label="Trang sau" disabled>›</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="appointment-page">
+        <div class="modal-backdrop" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal">
+                <h2 id="modalTitle">Thêm lịch hẹn</h2>
+                <form id="appointmentForm">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="patientName">Tên bệnh nhân</label>
+                            <input id="patientName" name="patientName" required placeholder="Nhập tên bệnh nhân">
+                        </div>
+                        <div class="form-field">
+                            <label for="patientPhone">Số điện thoại</label>
+                            <input id="patientPhone" name="patientPhone" type="tel" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div class="form-field">
+                            <label for="appointmentDate">Ngày khám</label>
+                            <input id="appointmentDate" name="appointmentDate" type="date" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="appointmentTime">Giờ khám</label>
+                            <input id="appointmentTime" name="appointmentTime" type="time" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="doctorName">Bác sĩ</label>
+                            <input id="doctorName" name="doctorName" required placeholder="Ví dụ: BS. Trần Minh">
+                        </div>
+                        <div class="form-field">
+                            <label for="specialty">Chuyên khoa</label>
+                            <select id="specialty" name="specialty">
+                                <option>Nội khoa</option><option>Ngoại khoa</option>
+                                <option>Tim mạch</option><option>Nhi khoa</option>
+                                <option>Da liễu</option><option>Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-field full">
+                            <label for="reason">Lý do khám</label>
+                            <textarea id="reason" name="reason" placeholder="Nhập lý do khám"></textarea>
+                        </div>
+                        <div class="form-field full">
+                            <label for="appointmentStatus">Trạng thái</label>
+                            <select id="appointmentStatus" name="appointmentStatus">
+                                <option value="pending">Chờ xác nhận</option>
+                                <option value="confirmed">Đã xác nhận</option>
+                                <option value="completed">Đã khám</option>
+                                <option value="cancelled">Đã hủy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="secondary-btn" id="cancelModalBtn" type="button">Hủy</button>
+                        <button class="primary-btn" type="submit">Lưu lịch hẹn</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const appointments = [
+            { id: 1, patient: "Nguyễn Văn An", phone: "0901234567", date: "2026-10-03", time: "08:00", doctor: "BS. Trần Minh", initials: "TM", specialty: "Nội khoa", reason: "Khám tổng quát", status: "confirmed" },
+            { id: 2, patient: "Trần Thị Lan", phone: "0902345678", date: "2026-10-03", time: "09:30", doctor: "BS. Nguyễn Hà", initials: "NH", specialty: "Tim mạch", reason: "Đau ngực", status: "pending" },
+            { id: 3, patient: "Lê Văn Bình", phone: "0903456789", date: "2026-10-03", time: "10:00", doctor: "BS. Phạm Nam", initials: "PN", specialty: "Ngoại khoa", reason: "Tái khám", status: "completed" },
+            { id: 4, patient: "Phạm Thị Hoa", phone: "0904567890", date: "2026-10-03", time: "13:30", doctor: "BS. Lê Anh", initials: "LA", specialty: "Nhi khoa", reason: "Khám định kỳ", status: "confirmed" },
+            { id: 5, patient: "Hoàng Thị Mai", phone: "0905678901", date: "2026-10-03", time: "14:00", doctor: "BS. Hoàng Thảo", initials: "HT", specialty: "Da liễu", reason: "Dị ứng da", status: "cancelled" },
+            { id: 6, patient: "Vũ Đức Long", phone: "0906789012", date: "2026-10-03", time: "15:30", doctor: "BS. Vũ Đức", initials: "VD", specialty: "Nội khoa", reason: "Đau đầu", status: "confirmed" }
+        ];
+
+        const statusLabels = {
+            confirmed: "Đã xác nhận",
+            pending: "Chờ xác nhận",
+            completed: "Đã khám",
+            cancelled: "Đã hủy"
+        };
+        const rows = document.getElementById("appointmentRows");
+        const searchInput = document.getElementById("searchInput");
+        const statusFilter = document.getElementById("statusFilter");
+        const dateFilter = document.getElementById("dateFilter");
+        const modalBackdrop = document.getElementById("appointmentModal");
+        const form = document.getElementById("appointmentForm");
+        let nextId = 7;
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[char]));
+        }
+
+        function formatDate(dateString) {
+            const [year, month, day] = dateString.split("-");
+            return `${day}/${month}/${year}`;
+        }
+
+        function renderAppointments() {
+            const query = searchInput.value.trim().toLocaleLowerCase("vi");
+            const selectedStatus = statusFilter.value;
+            const selectedDate = dateFilter.value;
+            const visible = appointments.filter(item => {
+                const matchesQuery = [item.patient, item.phone, item.doctor, item.specialty, item.reason]
+                    .some(value => value.toLocaleLowerCase("vi").includes(query));
+                const matchesStatus = !selectedStatus || item.status === selectedStatus;
+                const today = new Date();
+                const localToday = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+                const matchesDate = !selectedDate ||
+                    (selectedDate === "today" && item.date === localToday) ||
+                    (selectedDate === "upcoming" && item.date >= localToday && item.status !== "cancelled");
+                return matchesQuery && matchesStatus && matchesDate;
+            });
+
+            rows.innerHTML = visible.length ? visible.map(item => `
+                <tr>
+                    <td class="patient-cell"><strong>${escapeHtml(item.patient)}</strong><small>${escapeHtml(item.phone || "Chưa có SĐT")}</small></td>
+                    <td><strong>${escapeHtml(item.time)}</strong><br><small>${formatDate(item.date)}</small></td>
+                    <td><span class="doctor-avatar">${escapeHtml(item.initials)}</span><strong>${escapeHtml(item.doctor)}</strong></td>
+                    <td>${escapeHtml(item.specialty)}</td>
+                    <td>${escapeHtml(item.reason || "—")}</td>
+                    <td><span class="status ${item.status === "confirmed" ? "success" : item.status === "pending" ? "warning" : item.status === "cancelled" ? "danger" : "info"}">${statusLabels[item.status]}</span></td>
+                    <td><div class="row-actions">
+                        <button type="button" title="Xem chi tiết" aria-label="Xem ${escapeHtml(item.patient)}" data-action="view" data-id="${item.id}">👁</button>
+                        <button type="button" title="Sửa lịch hẹn" aria-label="Sửa ${escapeHtml(item.patient)}" data-action="edit" data-id="${item.id}">✏️</button>
+                        <button type="button" title="Hủy lịch hẹn" aria-label="Hủy ${escapeHtml(item.patient)}" data-action="delete" data-id="${item.id}">🗑</button>
+                    </div></td>
+                </tr>`).join("") : `<tr><td colspan="7" class="empty-state">Không tìm thấy lịch hẹn phù hợp.</td></tr>`;
+
+            document.getElementById("resultCount").textContent = `${visible.length} lịch hẹn`;
+            document.getElementById("tableInfo").textContent = `Hiển thị ${visible.length} / ${appointments.length} lịch hẹn`;
+            document.getElementById("totalCount").textContent = appointments.length;
+            document.getElementById("pendingCount").textContent = appointments.filter(x => x.status === "pending").length;
+            document.getElementById("confirmedCount").textContent = appointments.filter(x => x.status === "confirmed").length;
+            document.getElementById("cancelledCount").textContent = appointments.filter(x => x.status === "cancelled").length;
+        }
+
+        function openModal(appointment = null) {
+            form.reset();
+            document.getElementById("modalTitle").textContent = appointment ? "Chỉnh sửa lịch hẹn" : "Thêm lịch hẹn";
+            if (appointment) {
+                document.getElementById("patientName").value = appointment.patient;
+                document.getElementById("patientPhone").value = appointment.phone;
+                document.getElementById("appointmentDate").value = appointment.date;
+                document.getElementById("appointmentTime").value = appointment.time;
+                document.getElementById("doctorName").value = appointment.doctor;
+                document.getElementById("specialty").value = appointment.specialty;
+                document.getElementById("reason").value = appointment.reason;
+                document.getElementById("appointmentStatus").value = appointment.status;
+                form.dataset.editId = appointment.id;
+            } else {
+                delete form.dataset.editId;
+                const now = new Date();
+                document.getElementById("appointmentDate").value =
+                    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+            }
+            modalBackdrop.classList.add("open");
+            document.getElementById("patientName").focus();
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.remove("open");
+        }
+
+        document.getElementById("addAppointmentBtn").addEventListener("click", () => openModal());
+        document.getElementById("cancelModalBtn").addEventListener("click", closeModal);
+        modalBackdrop.addEventListener("click", event => {
+            if (event.target === modalBackdrop) closeModal();
+        });
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") closeModal();
+        });
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+            const data = new FormData(form);
+            const editId = Number(form.dataset.editId);
+            const doctor = data.get("doctorName").trim();
+            const item = {
+                id: editId || nextId++,
+                patient: data.get("patientName").trim(),
+                phone: data.get("patientPhone").trim(),
+                date: data.get("appointmentDate"),
+                time: data.get("appointmentTime"),
+                doctor,
+                initials: doctor.replace(/^BS\.?\s*/i, "").split(/\s+/).map(part => part[0] || "").join("").slice(-2).toUpperCase(),
+                specialty: data.get("specialty"),
+                reason: data.get("reason").trim(),
+                status: data.get("appointmentStatus")
+            };
+            if (editId) {
+                const index = appointments.findIndex(x => x.id === editId);
+                if (index !== -1) appointments[index] = item;
+            } else {
+                appointments.push(item);
+            }
+            renderAppointments();
+            closeModal();
+        });
+
+        rows.addEventListener("click", event => {
+            const button = event.target.closest("button[data-action]");
+            if (!button) return;
+            const item = appointments.find(x => x.id === Number(button.dataset.id));
+            if (!item) return;
+            if (button.dataset.action === "view") {
+                alert(`Bệnh nhân: ${item.patient}\nSĐT: ${item.phone}\nNgày: ${formatDate(item.date)}\nGiờ: ${item.time}\nBác sĩ: ${item.doctor}\nChuyên khoa: ${item.specialty}\nLý do: ${item.reason}\nTrạng thái: ${statusLabels[item.status]}`);
+            } else if (button.dataset.action === "edit") {
+                openModal(item);
+            } else if (button.dataset.action === "delete") {
+                if (confirm(`Bạn có chắc muốn hủy lịch hẹn của ${item.patient}?`)) {
+                    item.status = "cancelled";
+                    renderAppointments();
+                }
+            }
+        });
+
+        searchInput.addEventListener("input", renderAppointments);
+        statusFilter.addEventListener("change", renderAppointments);
+        dateFilter.addEventListener("change", renderAppointments);
+        renderAppointments();
+    </script>
+</body>
+</html>

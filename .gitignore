@@ -1,0 +1,4 @@
+monitoring/loki/data/
+monitoring/grafana/data/
+*.log
+.DS_Store

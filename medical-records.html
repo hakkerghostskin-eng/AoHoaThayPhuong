@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hồ sơ bệnh án - MediCloud</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+<style>
+.header-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.edit-btn{border:0;background:#2563eb;color:#fff;padding:13px 18px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(37,99,235,.18)}
+.edit-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
+.edit-modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.58);backdrop-filter:blur(5px);z-index:9999;padding:24px;overflow:auto}
+.edit-modal.show{display:flex;align-items:center;justify-content:center}
+.edit-modal-box{width:min(760px,100%);background:#fff;border-radius:22px;box-shadow:0 25px 70px rgba(15,23,42,.25);overflow:hidden}
+.edit-modal-header{padding:26px 30px 20px;border-bottom:1px solid #e8edf5;display:flex;justify-content:space-between;gap:20px}
+.edit-modal-header h2{margin:6px 0;font-size:25px;color:#172033}
+.edit-modal-header p{margin:0;color:#64748b}
+.close-edit{width:38px;height:38px;border:0;border-radius:10px;background:#f1f5f9;font-size:26px;cursor:pointer;color:#475569}
+#editForm{padding:26px 30px}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group label{font-size:13px;font-weight:700;color:#475569}
+.form-group input,.form-group select{width:100%;box-sizing:border-box;border:1px solid #dbe3ef;border-radius:11px;padding:12px 13px;font-size:14px;outline:none;background:#fff;color:#172033}
+.form-group input:focus,.form-group select:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.edit-note{margin-top:20px;padding:13px 15px;border-radius:11px;background:#eff6ff;color:#1d4ed8;font-size:13px}
+.edit-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+.cancel-edit,.save-edit{border:0;border-radius:11px;padding:12px 18px;font-weight:700;cursor:pointer}
+.cancel-edit{background:#f1f5f9;color:#475569}
+.save-edit{background:#2563eb;color:#fff}
+@media(max-width:650px){.edit-grid{grid-template-columns:1fr}.edit-modal{padding:12px}.edit-modal-header,#editForm{padding-left:20px;padding-right:20px}.header-actions{width:100%}.header-actions button{width:100%}}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+
+    <div class="logo">
+        <span>☁</span>
+        MediCloud
+    </div>
+
+    <nav>
+        <a href="index.html">Trang chủ</a>
+        <a href="appointments.html">Lịch hẹn</a>
+        <a href="doctors.html">Bác sĩ</a>
+        <a href="medical-records.html" class="active">Hồ sơ bệnh án</a>
+    </nav>
+
+    <div class="user-area">
+        <div class="notification">🔔</div>
+
+        <div class="user">
+            <div class="avatar">N</div>
+            <div>
+                <strong>Nguyễn Văn A</strong>
+                <small>Bệnh nhân</small>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+<main class="medical-container">
+
+    <!-- PAGE TITLE -->
+    <section class="page-header">
+
+        <div>
+            <span class="page-label">MEDICAL RECORDS</span>
+
+            <h1>Hồ sơ bệnh án</h1>
+
+            <p>
+                Theo dõi lịch sử khám bệnh, chẩn đoán và thông tin điều trị của bạn.
+            </p>
+        </div>
+
+        <div class="header-actions">
+            <button class="edit-btn" onclick="openEditForm()">
+                ✏️ Chỉnh sửa hồ sơ
+            </button>
+            <button class="download-btn" onclick="downloadRecords()">
+                ⬇ Tải hồ sơ
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- ================= PATIENT INFO ================= -->
+    <section class="patient-card">
+
+        <div class="patient-avatar" id="patientAvatar">N</div>
+
+        <div class="patient-info">
+            <h2 id="patientName">Nguyễn Văn A</h2>
+
+            <div class="patient-details">
+                <span id="patientAge">🎂 20 tuổi</span>
+                <span id="patientGender">⚧ Nam</span>
+                <span id="patientBlood">🩸 Nhóm máu: O+</span>
+                <span id="patientPhone">📞 0901 234 567</span>
+            </div>
+        </div>
+
+        <div class="patient-status">
+            <span class="status-dot"></span>
+            Hồ sơ đang hoạt động
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATISTICS ================= -->
+    <section class="record-stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">📋</div>
+
+            <div>
+                <span>Tổng lượt khám</span>
+                <strong id="visitCount">08</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🩺</div>
+
+            <div>
+                <span>Bác sĩ đã khám</span>
+                <strong id="doctorCount">05</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">💊</div>
+
+            <div>
+                <span>Đơn thuốc</span>
+                <strong id="medicineCount">12</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+
+            <div>
+                <span>Lần khám gần nhất</span>
+                <strong id="lastVisit">12/09/2026</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= FILTER ================= -->
+    <section class="record-toolbar">
+
+        <div>
+            <h2>Lịch sử khám bệnh</h2>
+            <p>Danh sách các lần khám gần đây</p>
+        </div>
+
+        <div class="filters">
+
+            <select id="yearFilter" onchange="filterRecords()">
+                <option value="all">Tất cả năm</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+            </select>
+
+            <select id="typeFilter" onchange="filterRecords()">
+                <option value="all">Tất cả loại khám</option>
+                <option value="general">Khám tổng quát</option>
+                <option value="specialist">Chuyên khoa</option>
+                <option value="followup">Tái khám</option>
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= RECORD LIST ================= -->
+    <section class="records-list" id="recordsList">
+
+
+        <!-- RECORD 1 -->
+        <article class="record-card"
+                 data-year="2026"
+                 data-type="general">
+
+            <div class="record-date">
+
+                <strong>12</strong>
+
+                <span>THÁNG 09</span>
+
+                <small>2026</small>
+
+            </div>
+
+
+            <div class="record-main">
+
+                <div class="record-title">
+
+                    <div>
+                        <span class="record-tag general">
+                            Khám tổng quát
+                        </span>
+
+                        <h3>Khám sức khỏe định kỳ</h3>
+                    </div>
+
+                    <span class="record-status">
+                        Hoàn tất
+                    </span>
+
+                </div>
+
+
+                <div class="record-info">
+
+                    <div>
+                        <span>👨‍⚕️ Bác sĩ</span>
+                        <strong>BS. Trần Minh Anh</strong>
+                    </div>
+
+                    <div>
+                        <span>🏥 Khoa</span>
+                        <strong>Nội tổng quát</strong>
+                    </div>
+
+                    <div>
+                        <span>🩺 Chẩn đoán</span>
+                        <strong>Sức khỏe ổn định</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button onclick="viewRecord('Khám sức khỏe định kỳ')">
+                        Xem chi tiết
+                    </button>
+
+                    <button class="outline"
+                            onclick="viewPrescription()">
+                        💊 Đơn thuốc
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- RECORD 2 -->
+        <article class="record-card"
+                 data-year="2026"
+                 data-type="specialist">
+
+            <div class="record-date">
+
+                <strong>28</strong>
+
+                <span>THÁNG 08</span>
+
+                <small>2026</small>
+
+            </div>
+
+
+            <div class="record-main">
+
+                <div class="record-title">
+
+                    <div>
+
+                        <span class="record-tag specialist">
+                            Chuyên khoa
+                        </span>
+
+                        <h3>Khám nội khoa</h3>
+
+                    </div>
+
+                    <span class="record-status">
+                        Hoàn tất
+                    </span>
+
+                </div>
+
+
+                <div class="record-info">
+
+                    <div>
+                        <span>👨‍⚕️ Bác sĩ</span>
+                        <strong>BS. Nguyễn Hoàng Nam</strong>
+                    </div>
+
+                    <div>
+                        <span>🏥 Khoa</span>
+                        <strong>Nội khoa</strong>
+                    </div>
+
+                    <div>
+                        <span>🩺 Chẩn đoán</span>
+                        <strong>Viêm họng cấp</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button onclick="viewRecord('Khám nội khoa')">
+                        Xem chi tiết
+                    </button>
+
+                    <button class="outline"
+                            onclick="viewPrescription()">
+                        💊 Đơn thuốc
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- RECORD 3 -->
+        <article class="record-card"
+                 data-year="2026"
+                 data-type="followup">
+
+            <div class="record-date">
+
+                <strong>15</strong>
+
+                <span>THÁNG 06</span>
+
+                <small>2026</small>
+
+            </div>
+
+
+            <div class="record-main">
+
+                <div class="record-title">
+
+                    <div>
+
+                        <span class="record-tag followup">
+                            Tái khám
+                        </span>
+
+                        <h3>Tái khám sau điều trị</h3>
+
+                    </div>
+
+                    <span class="record-status">
+                        Hoàn tất
+                    </span>
+
+                </div>
+
+
+                <div class="record-info">
+
+                    <div>
+                        <span>👨‍⚕️ Bác sĩ</span>
+                        <strong>BS. Lê Minh Tuấn</strong>
+                    </div>
+
+                    <div>
+                        <span>🏥 Khoa</span>
+                        <strong>Tim mạch</strong>
+                    </div>
+
+                    <div>
+                        <span>🩺 Chẩn đoán</span>
+                        <strong>Theo dõi sức khỏe</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button onclick="viewRecord('Tái khám sau điều trị')">
+                        Xem chi tiết
+                    </button>
+
+                    <button class="outline"
+                            onclick="viewPrescription()">
+                        💊 Đơn thuốc
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- RECORD 4 -->
+        <article class="record-card"
+                 data-year="2025"
+                 data-type="general">
+
+            <div class="record-date">
+
+                <strong>21</strong>
+
+                <span>THÁNG 11</span>
+
+                <small>2025</small>
+
+            </div>
+
+
+            <div class="record-main">
+
+                <div class="record-title">
+
+                    <div>
+
+                        <span class="record-tag general">
+                            Khám tổng quát
+                        </span>
+
+                        <h3>Khám sức khỏe tổng quát</h3>
+
+                    </div>
+
+                    <span class="record-status">
+                        Hoàn tất
+                    </span>
+
+                </div>
+
+
+                <div class="record-info">
+
+                    <div>
+                        <span>👨‍⚕️ Bác sĩ</span>
+                        <strong>BS. Phạm Minh Đức</strong>
+                    </div>
+
+                    <div>
+                        <span>🏥 Khoa</span>
+                        <strong>Nội tổng quát</strong>
+                    </div>
+
+                    <div>
+                        <span>🩺 Chẩn đoán</span>
+                        <strong>Sức khỏe bình thường</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button onclick="viewRecord('Khám sức khỏe tổng quát')">
+                        Xem chi tiết
+                    </button>
+
+                    <button class="outline"
+                            onclick="viewPrescription()">
+                        💊 Đơn thuốc
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- ================= EMPTY ================= -->
+    <div id="emptyRecords" class="empty-records">
+
+        <div>📂</div>
+
+        <h3>Không tìm thấy hồ sơ</h3>
+
+        <p>
+            Không có hồ sơ phù hợp với bộ lọc hiện tại.
+        </p>
+
+    </div>
+
+</main>
+
+
+
+<!-- ================= EDIT MEDICAL RECORD MODAL ================= -->
+<div id="editModal" class="edit-modal">
+    <div class="edit-modal-box">
+        <div class="edit-modal-header">
+            <div>
+                <span class="page-label">ADMIN • EDIT RECORD</span>
+                <h2>Chỉnh sửa hồ sơ bệnh án</h2>
+                <p>Thay đổi thông tin của bệnh nhân đang được chọn.</p>
+            </div>
+            <button class="close-edit" onclick="closeEditForm()">×</button>
+        </div>
+
+        <form id="editForm" onsubmit="savePatient(event)">
+            <div class="edit-grid">
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input id="editName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tuổi</label>
+                    <input id="editAge" type="number" min="0" max="150" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select id="editGender">
+                        <option>Nam</option>
+                        <option>Nữ</option>
+                        <option>Khác</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Nhóm máu</label>
+                    <select id="editBlood">
+                        <option>O+</option><option>O-</option>
+                        <option>A+</option><option>A-</option>
+                        <option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input id="editPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tổng lượt khám</label>
+                    <input id="editVisits" type="number" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Số bác sĩ đã khám</label>
+                    <input id="editDoctors" type="number" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Số đơn thuốc</label>
+                    <input id="editMedicines" type="number" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Lần khám gần nhất</label>
+                    <input id="editLastVisit" placeholder="12/09/2026" required>
+                </div>
+            </div>
+
+            <div class="edit-note">
+                🔒 Chế độ quản trị viên: dữ liệu được lưu theo mã bệnh nhân hiện tại.
+            </div>
+
+            <div class="edit-modal-actions">
+                <button type="button" class="cancel-edit" onclick="closeEditForm()">Hủy</button>
+                <button type="submit" class="save-edit">💾 Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+            <strong>☁ MediCloud</strong>
+            <p>
+                Nền tảng quản lý sức khỏe trực tuyến.
+            </p>
+        </div>
+
+        <div>
+            <span>© 2026 MediCloud</span>
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+<script src="js/runtime-config.js"></script>
+<script src="js/backend-adapter.js"></script>
+<script src="js/medical-records-page.js"></script>
+
+</body>
+</html>

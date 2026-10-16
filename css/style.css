@@ -1,0 +1,2131 @@
+/* =========================================
+   MEDICLOUD - MODERN MEDICAL DASHBOARD
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+
+    --text: #172033;
+    --text-light: #64748b;
+
+    --border: #e8edf5;
+    --background: #f6f8fc;
+    --white: #ffffff;
+
+    --shadow:
+        0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+
+/* =========================================
+   LAYOUT
+   ========================================= */
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+
+    background: #ffffff;
+
+    border-right: 1px solid var(--border);
+
+    padding: 25px 16px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    z-index: 100;
+}
+
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 5px 10px;
+
+    margin-bottom: 40px;
+
+    color: var(--primary);
+
+    font-size: 23px;
+
+    font-weight: 800;
+}
+
+.logo span {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    color: white;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* MENU TITLE */
+
+.menu-title {
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #a0aec0;
+
+    margin:
+        25px 10px 10px;
+}
+
+
+/* MENU */
+
+.menu {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 13px 14px;
+
+    margin-bottom: 5px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+        all 0.25s ease;
+}
+
+.menu:hover {
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    transform: translateX(3px);
+}
+
+.menu.active {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6
+        );
+
+    color: white;
+
+    box-shadow:
+        0 8px 18px
+        rgba(37, 99, 235, 0.20);
+}
+
+.menu.active:hover {
+    transform: none;
+}
+
+.logout {
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   MAIN
+   ========================================= */
+
+.main {
+    width: calc(100% - 260px);
+
+    margin-left: 260px;
+
+    padding: 30px 35px;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 28px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+
+    margin-bottom: 7px;
+}
+
+.header p {
+    color: var(--text-light);
+
+    font-size: 13px;
+}
+
+
+/* USER */
+
+.user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    background: white;
+
+    padding: 8px 14px 8px 8px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(15, 23, 42, 0.04);
+}
+
+.user strong {
+    font-size: 13px;
+}
+
+.user small {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #bfdbfe
+        );
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================
+   STATISTICS
+   ========================================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(15, 23, 42, 0.10);
+}
+
+
+/* ICON */
+
+.icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    font-size: 22px;
+
+    flex-shrink: 0;
+}
+
+.blue {
+    background: #eff6ff;
+}
+
+.green {
+    background: #ecfdf5;
+}
+
+.orange {
+    background: #fff7ed;
+}
+
+.purple {
+    background: #f5f3ff;
+}
+
+.stat-card p {
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+.stat-card h2 {
+    font-size: 24px;
+
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+.increase {
+    color: var(--green);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   CONTENT
+   ========================================= */
+
+.content-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 20px;
+}
+
+
+/* CARD */
+
+.card {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    padding: 22px;
+
+    box-shadow: var(--shadow);
+}
+
+.card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+.card-header a {
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.card-header a:hover {
+    color: var(--primary-dark);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   TABLE
+   ========================================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th {
+    text-align: left;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    padding: 12px 10px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+td {
+    padding: 15px 10px;
+
+    font-size: 12px;
+
+    border-bottom:
+        1px solid #f1f5f9;
+}
+
+tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.status::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+}
+
+.success {
+    background: #ecfdf5;
+
+    color: #059669;
+}
+
+.success::before {
+    background: #10b981;
+}
+
+.warning {
+    background: #fffbeb;
+
+    color: #d97706;
+}
+
+.warning::before {
+    background: #f59e0b;
+}
+
+.danger {
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.danger::before {
+    background: #ef4444;
+}
+
+
+/* =========================================
+   MICROSERVICES
+   ========================================= */
+
+.services {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.service {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 14px 8px;
+
+    border-bottom:
+        1px solid #f1f5f9;
+
+    transition:
+        background 0.2s ease;
+}
+
+.service:hover {
+    background: #f8fafc;
+
+    border-radius: 8px;
+}
+
+.service:last-child {
+    border-bottom: none;
+}
+
+.service > div {
+    flex: 1;
+}
+
+.service strong {
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+.service small {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+/* SERVICE DOT */
+
+.dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+.online {
+    background: #22c55e;
+
+    box-shadow:
+        0 0 0 4px #dcfce7;
+}
+
+.warning-dot {
+    background: #f59e0b;
+
+    box-shadow:
+        0 0 0 4px #fef3c7;
+}
+
+
+/* SERVICE STATUS */
+
+.service-status {
+    padding: 4px 8px;
+
+    background: #ecfdf5;
+
+    color: #059669;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.warning-text {
+    background: #fffbeb;
+
+    color: #d97706;
+}
+
+
+/* =========================================
+   RESPONSIVE TABLET
+   ========================================= */
+
+@media (max-width: 1200px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 72px;
+
+        padding: 20px 10px;
+    }
+
+    .logo {
+        justify-content: center;
+
+        padding: 0;
+
+        font-size: 0;
+    }
+
+    .logo span {
+        margin: auto;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .menu {
+        justify-content: center;
+
+        padding: 13px;
+    }
+
+    .menu span {
+        display: none;
+    }
+
+    .main {
+        width: calc(100% - 72px);
+
+        margin-left: 72px;
+
+        padding: 20px;
+    }
+
+    .header {
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        font-size: 23px;
+    }
+
+    .user {
+        padding: 6px;
+    }
+
+    .user div:not(.avatar) {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 15px;
+
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 500px) {
+
+    .main {
+        padding: 15px;
+    }
+
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .content-grid {
+        gap: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   MEDICAL RECORDS PAGE
+   Dùng cho medical-records.html
+   ========================================================= */
+
+.medical-container {
+    width: min(1200px, 92%);
+    margin: 40px auto 70px;
+}
+
+.topbar {
+    min-height: 72px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 12px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+.topbar .logo {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.topbar nav {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+}
+
+.topbar nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.topbar nav a:hover,
+.topbar nav a.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.topbar .user-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar .notification {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.topbar .user {
+    margin: 0;
+    min-width: 180px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.page-label {
+    color: var(--primary);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.page-header h1 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 7px 0;
+}
+
+.page-header p {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+.download-btn {
+    border: 0;
+    background: linear-gradient(135deg, var(--primary), #3b82f6);
+    color: white;
+    padding: 12px 17px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 7px 18px rgba(37,99,235,.18);
+    transition: .2s ease;
+}
+
+.download-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.patient-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+}
+
+.patient-avatar {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: var(--primary);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.patient-info {
+    flex: 1;
+}
+
+.patient-info h2 {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.patient-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.patient-status {
+    padding: 7px 11px;
+    border-radius: 20px;
+    background: #ecfdf5;
+    color: #059669;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #10b981;
+    margin-right: 5px;
+}
+
+.record-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.record-stats .stat-card {
+    min-width: 0;
+}
+
+.record-stats .stat-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--primary-light);
+    font-size: 19px;
+}
+
+.record-stats .stat-card span {
+    display: block;
+    color: var(--text-light);
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.record-stats .stat-card strong {
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.record-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.record-toolbar h2 {
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+
+.record-toolbar p {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.filters {
+    display: flex;
+    gap: 9px;
+}
+
+.filters select {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+}
+
+.filters select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.record-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: .2s ease;
+}
+
+.record-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(15,23,42,.09);
+}
+
+.record-date {
+    width: 105px;
+    flex-shrink: 0;
+    background: #f8fbff;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 10px;
+}
+
+.record-date strong {
+    color: var(--primary);
+    font-size: 30px;
+    line-height: 1;
+}
+
+.record-date span {
+    color: #64748b;
+    font-size: 9px;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.record-date small {
+    color: #94a3b8;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.record-main {
+    flex: 1;
+    min-width: 0;
+    padding: 20px 22px;
+}
+
+.record-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.record-title h3 {
+    font-size: 16px;
+    margin-top: 7px;
+}
+
+.record-tag {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.record-tag.general {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.record-tag.specialist {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.record-tag.followup {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.record-status {
+    background: #ecfdf5;
+    color: #059669;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.record-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 17px;
+    padding: 14px 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.record-info span {
+    display: block;
+    color: #94a3b8;
+    font-size: 10px;
+    margin-bottom: 5px;
+}
+
+.record-info strong {
+    color: #334155;
+    font-size: 11px;
+}
+
+.record-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.record-actions button {
+    border: 0;
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.record-actions button:hover {
+    background: var(--primary-dark);
+}
+
+.record-actions button.outline {
+    background: white;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+}
+
+.record-actions button.outline:hover {
+    background: var(--primary-light);
+}
+
+.empty-records {
+    display: none;
+    background: white;
+    border: 1px dashed #cbd5e1;
+    border-radius: 15px;
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.empty-records > div {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.empty-records h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.empty-records p {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+footer {
+    background: #172033;
+    color: white;
+    padding: 25px 5%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-content strong {
+    font-size: 17px;
+}
+
+.footer-content p,
+.footer-content span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.footer-content p {
+    margin-top: 5px;
+}
+
+/* Medical records responsive */
+@media (max-width: 1000px) {
+    .topbar {
+        gap: 12px;
+    }
+
+    .topbar nav a {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    .record-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .record-info {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        position: relative;
+        flex-wrap: wrap;
+        padding: 12px 4%;
+    }
+
+    .topbar nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .topbar nav a {
+        white-space: nowrap;
+    }
+
+    .topbar .user-area {
+        margin-left: auto;
+    }
+
+    .topbar .user {
+        min-width: auto;
+    }
+
+    .topbar .user > div:not(.avatar) {
+        display: none;
+    }
+
+    .medical-container {
+        width: 94%;
+        margin-top: 25px;
+    }
+
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .patient-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .patient-status {
+        width: 100%;
+        text-align: center;
+    }
+
+    .record-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filters select {
+        flex: 1;
+    }
+
+    .record-card {
+        flex-direction: column;
+    }
+
+    .record-date {
+        width: 100%;
+        flex-direction: row;
+        gap: 8px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 12px;
+    }
+
+    .record-date span {
+        margin-top: 0;
+    }
+
+    .record-date small {
+        margin-top: 0;
+    }
+
+    .record-title {
+        flex-direction: column;
+    }
+
+    .record-actions {
+        flex-wrap: wrap;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .record-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header h1 {
+        font-size: 25px;
+    }
+
+    .patient-details {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .record-main {
+        padding: 17px;
+    }
+
+    .record-actions button {
+        flex: 1;
+    }
+}
+
+/* =========================================================
+   PATIENTS PAGE
+   Dùng cho patients.html
+   Kế thừa giao diện Home của MediCloud
+   ========================================================= */
+
+/* Khung danh sách bệnh nhân */
+.patient-card {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 25px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+}
+
+/* Tiêu đề và ô tìm kiếm */
+.patient-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.patient-card .card-header h2 {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Ô tìm kiếm bệnh nhân */
+.patient-search {
+    width: 300px;
+    max-width: 100%;
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: #f8fafc;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+}
+
+.patient-search::placeholder {
+    color: #94a3b8;
+}
+
+.patient-search:hover {
+    border-color: #cbd5e1;
+}
+
+.patient-search:focus {
+    background: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Khung cuộn bảng */
+.patient-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+/* Bảng bệnh nhân */
+.patient-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+}
+
+/* Tiêu đề cột */
+.patient-table thead {
+    background: #f8fafc;
+}
+
+.patient-table th {
+    padding: 15px 13px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Dữ liệu */
+.patient-table td {
+    padding: 16px 13px;
+    color: #475569;
+    font-size: 12px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.patient-table td strong {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.patient-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.patient-table tbody tr:hover {
+    background: #f8fbff;
+}
+
+.patient-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Trạng thái bệnh nhân */
+.patient-table .status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.patient-table .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.patient-table .status.success {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.patient-table .status.success::before {
+    background: #10b981;
+}
+
+.patient-table .status.warning {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.patient-table .status.warning::before {
+    background: #f59e0b;
+}
+
+/* Nút xem hồ sơ */
+.view-record-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.view-record-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.15);
+}
+
+.view-record-btn:active {
+    transform: translateY(0);
+}
+
+.view-record-btn:focus-visible {
+    outline: 3px solid #bfdbfe;
+    outline-offset: 2px;
+}
+
+/* Bàn phím: giữ viền focus rõ ràng */
+.patient-search:focus-visible {
+    outline: 2px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* Trạng thái không tìm thấy dữ liệu nếu JS thêm hàng thông báo */
+.patient-table .empty-row td {
+    padding: 35px 15px;
+    color: var(--text-light);
+    text-align: center;
+    white-space: normal;
+}
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 1200px) {
+    .patient-card {
+        padding: 18px;
+    }
+
+    .patient-card .card-header h2 {
+        font-size: 16px;
+    }
+
+    .patient-search {
+        width: 260px;
+    }
+
+    .patient-table {
+        min-width: 800px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .patient-card {
+        padding: 15px;
+        overflow: visible;
+    }
+
+    .patient-card .card-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 13px;
+        margin-bottom: 16px;
+    }
+
+    .patient-card .card-header h2 {
+        font-size: 16px;
+    }
+
+    .patient-search {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    .patient-table-wrapper {
+        border-radius: 8px;
+    }
+
+    .patient-table {
+        min-width: 800px;
+    }
+
+    .patient-table th {
+        padding: 13px 11px;
+    }
+
+    .patient-table td {
+        padding: 13px 11px;
+    }
+
+    .view-record-btn {
+        padding: 8px 10px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+    .patient-card {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .patient-card .card-header h2 {
+        font-size: 15px;
+    }
+
+    .patient-search {
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+
+    .patient-table {
+        min-width: 780px;
+    }
+
+    .patient-table th {
+        font-size: 9px;
+        padding: 12px 10px;
+    }
+
+    .patient-table td {
+        font-size: 11px;
+        padding: 12px 10px;
+    }
+
+    .view-record-btn {
+        font-size: 10px;
+    }
+}
+
+/* =========================================
+   BO SUNG CSS DONG BO TRANG LICH HEN
+   Dan phan nay vao CUOI file CSS goc
+   ========================================= */
+
+/* Khung noi dung chinh */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 24px;
+    background: #f8fafc;
+}
+
+/* Header */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.top-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.top-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Cac the noi dung */
+.appointment-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+/* Thanh tim kiem va bo loc */
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.toolbar input,
+.toolbar select,
+.toolbar button {
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.toolbar input,
+.toolbar select {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #334155;
+    outline: none;
+}
+
+.toolbar input:focus,
+.toolbar select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Nut thao tac */
+.toolbar button,
+.btn-primary {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.toolbar button:hover,
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+/* Bang lich hen */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+thead {
+    background: #f1f5f9;
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Trang thai lich hen */
+.status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status.pending {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.status.confirmed {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.status.completed {
+    color: #1d4ed8;
+    background: #dbeafe;
+}
+
+.status.cancelled {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+/* Cac nut hanh dong trong bang */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-buttons button {
+    padding: 7px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    background: #fff;
+    color: #475569;
+    cursor: pointer;
+}
+
+.action-buttons button:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+/* Phan chuyen trang */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    color: #334155;
+    cursor: pointer;
+}
+
+.pagination button:hover,
+.pagination button.active {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #fff;
+}
+
+/* Tuong thich man hinh nho */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 16px;
+    }
+
+    .top-header {
+        align-items: flex-start;
+    }
+
+    .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .toolbar button {
+        width: 100%;
+    }
+
+    .appointment-card {
+        padding: 14px;
+    }
+
+    th,
+    td {
+        padding: 10px 12px;
+    }
+}
+
+/* ===== SUA LOI THANH DIEU HUONG ===== */
+
+/* Thanh menu ben trai */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 230px;
+    min-width: 230px;
+    height: 100vh;
+    padding: 20px 16px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+/* Logo */
+.sidebar .logo,
+.sidebar .logo-container {
+    margin-bottom: 36px;
+    text-align: center;
+}
+
+/* Danh sach menu */
+.sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li {
+    list-style: none;
+    margin: 4px 0;
+    padding: 0;
+}
+
+/* Link menu: bo gach chan, khong de cac muc dinh vao nhau */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin: 3px 0;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.5;
+    text-decoration: none;
+    white-space: normal;
+    overflow-wrap: break-word;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hieu ung khi di chuot */
+.sidebar a:hover {
+    background: #eff6ff;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+/* Muc menu dang duoc chon */
+.sidebar a.active,
+.sidebar a[aria-current="page"] {
+    background: #dbeafe;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* Tieu de nhom menu */
+.sidebar .menu-title,
+.sidebar .nav-title {
+    margin: 22px 0 8px;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Trang thai he thong */
+.sidebar .system-status {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Khong de noi dung chinh bi thanh menu che */
+.main-content {
+    margin-left: 230px;
+    width: calc(100% - 230px);
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Man hinh nho */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        min-width: 200px;
+        padding: 16px 10px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .sidebar a {
+        padding: 9px 8px;
+        font-size: 13px;
+    }
+}

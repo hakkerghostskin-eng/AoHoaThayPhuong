@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Bác sĩ | MediCloud</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    /* =====================================
+       DOCTORS PAGE
+       ===================================== */
+
+    .page-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        width: 230px;
+
+        padding: 9px 13px;
+
+        background: white;
+
+        border: 1px solid #e8edf5;
+
+        border-radius: 10px;
+    }
+
+    .search-box input {
+        width: 100%;
+
+        border: none;
+        outline: none;
+
+        font-family: inherit;
+        font-size: 12px;
+
+        color: #172033;
+    }
+
+    .search-box input::placeholder {
+        color: #94a3b8;
+    }
+
+    .btn-primary {
+        border: none;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #3b82f6
+            );
+
+        color: white;
+
+        padding: 10px 15px;
+
+        border-radius: 9px;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 6px 15px
+            rgba(37, 99, 235, 0.20);
+
+        transition: 0.2s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 20px
+            rgba(37, 99, 235, 0.25);
+    }
+
+    .filter-row {
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+
+        margin-bottom: 18px;
+    }
+
+    .filter-select {
+        border: 1px solid #e8edf5;
+
+        background: white;
+
+        padding: 9px 12px;
+
+        border-radius: 9px;
+
+        color: #64748b;
+
+        font-family: inherit;
+
+        font-size: 11px;
+
+        outline: none;
+
+        cursor: pointer;
+    }
+
+    .filter-select:focus {
+        border-color: #2563eb;
+    }
+
+    /* DOCTOR */
+
+    .doctor-info {
+        display: flex;
+
+        align-items: center;
+
+        gap: 11px;
+    }
+
+    .doctor-avatar {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #dbeafe,
+                #bfdbfe
+            );
+
+        color: #2563eb;
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+        flex-shrink: 0;
+    }
+
+    .doctor-name {
+        display: block;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        color: #172033;
+    }
+
+    .doctor-id {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #94a3b8;
+
+        font-size: 9px;
+    }
+
+    .specialty {
+        color: #475569;
+
+        font-size: 11px;
+
+        font-weight: 500;
+    }
+
+    .department {
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+    .experience {
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+    .action-buttons {
+        display: flex;
+
+        gap: 5px;
+    }
+
+    .action-btn {
+        width: 30px;
+        height: 30px;
+
+        border: 1px solid #e8edf5;
+
+        background: white;
+
+        border-radius: 7px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .action-btn:hover {
+        background: #eff6ff;
+
+        border-color: #bfdbfe;
+
+        transform: translateY(-1px);
+    }
+
+    /* PAGINATION */
+
+    .pagination {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-top: 20px;
+
+        padding-top: 15px;
+
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .pagination-info {
+        color: #94a3b8;
+
+        font-size: 10px;
+    }
+
+    .pages {
+        display: flex;
+
+        gap: 5px;
+    }
+
+    .page-btn {
+        width: 30px;
+        height: 30px;
+
+        border: 1px solid #e8edf5;
+
+        background: white;
+
+        border-radius: 7px;
+
+        color: #64748b;
+
+        cursor: pointer;
+
+        font-size: 11px;
+
+        transition: 0.2s;
+    }
+
+    .page-btn:hover {
+        border-color: #2563eb;
+
+        color: #2563eb;
+    }
+
+    .page-btn.active {
+        background: #2563eb;
+
+        color: white;
+
+        border-color: #2563eb;
+    }
+
+    @media (max-width: 800px) {
+
+        .page-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-box {
+            width: 100%;
+        }
+
+        .filter-row {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="layout">
+
+```
+<!-- =====================================
+     SIDEBAR
+     ===================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <span>✚</span>
+
+        MediCloud
+
+    </div>
+
+
+    <p class="menu-title">
+        QUẢN LÝ
+    </p>
+
+
+    <a href="index.html" class="menu">
+
+        🏠
+
+        <span>
+            Tổng quan
+        </span>
+
+    </a>
+
+
+    <a href="patients.html" class="menu">
+
+        👤
+
+        <span>
+            Bệnh nhân
+        </span>
+
+    </a>
+
+
+    <a href="doctors.html" class="menu active">
+
+        👨‍⚕️
+
+        <span>
+            Bác sĩ
+        </span>
+
+    </a>
+
+
+    <a href="appointments.html" class="menu">
+
+        📅
+
+        <span>
+            Lịch hẹn
+        </span>
+
+    </a>
+
+
+    <a href="medical-records.html" class="menu">
+
+        📋
+
+        <span>
+            Hồ sơ khám bệnh
+        </span>
+
+    </a>
+
+
+    <p class="menu-title">
+        HỆ THỐNG
+    </p>
+
+
+    <a href="#" class="menu">
+
+        ⚙️
+
+        <span>
+            Cài đặt
+        </span>
+
+    </a>
+
+
+    <a href="login.html" class="menu logout">
+
+        🚪
+
+        <span>
+            Đăng xuất
+        </span>
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================
+     MAIN
+     ===================================== -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <h1>
+                Bác sĩ
+            </h1>
+
+            <p>
+                Quản lý đội ngũ bác sĩ và chuyên khoa
+            </p>
+
+        </div>
+
+
+        <div class="user">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div>
+
+                <strong>
+                    Admin
+                </strong>
+
+                <small>
+                    Quản trị viên
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================
+         DOCTOR LIST
+         ===================================== -->
+
+    <div class="card">
+
+
+        <div class="card-header">
+
+            <h2>
+                Danh sách bác sĩ
+            </h2>
+
+
+            <div class="page-actions">
+
+                <div class="search-box">
+
+                    🔍
+
+                    <input
+                        type="text"
+                        placeholder="Tìm bác sĩ..."
+                    >
+
+                </div>
+
+
+                <button class="btn-primary">
+
+                    + Thêm bác sĩ
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FILTER -->
+
+        <div class="filter-row">
+
+            <select class="filter-select">
+
+                <option>
+                    Tất cả chuyên khoa
+                </option>
+
+                <option>
+                    Nội khoa
+                </option>
+
+                <option>
+                    Ngoại khoa
+                </option>
+
+                <option>
+                    Tim mạch
+                </option>
+
+                <option>
+                    Nhi khoa
+                </option>
+
+                <option>
+                    Da liễu
+                </option>
+
+            </select>
+
+
+            <select class="filter-select">
+
+                <option>
+                    Tất cả trạng thái
+                </option>
+
+                <option>
+                    Đang làm việc
+                </option>
+
+                <option>
+                    Nghỉ phép
+                </option>
+
+            </select>
+
+
+            <select class="filter-select">
+
+                <option>
+                    Sắp xếp: Tên A-Z
+                </option>
+
+                <option>
+                    Tên Z-A
+                </option>
+
+                <option>
+                    Kinh nghiệm
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- =====================================
+             TABLE
+             ===================================== -->
+
+        <div style="overflow-x:auto;">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            BÁC SĨ
+                        </th>
+
+                        <th>
+                            CHUYÊN KHOA
+                        </th>
+
+                        <th>
+                            KHOA
+                        </th>
+
+                        <th>
+                            KINH NGHIỆM
+                        </th>
+
+                        <th>
+                            TRẠNG THÁI
+                        </th>
+
+                        <th>
+                            THAO TÁC
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <!-- DOCTOR 1 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    TM
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Trần Minh
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0001
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Nội khoa
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Nội
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                12 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status success">
+                                Đang làm việc
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+                                    class="action-btn"
+                                    title="Xem">
+                                    👁
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    title="Chỉnh sửa">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    title="Xóa">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- DOCTOR 2 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    NH
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Nguyễn Hà
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0002
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Tim mạch
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Tim mạch
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                15 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status success">
+                                Đang làm việc
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button class="action-btn">
+                                    👁
+                                </button>
+
+                                <button class="action-btn">
+                                    ✏️
+                                </button>
+
+                                <button class="action-btn">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- DOCTOR 3 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    PN
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Phạm Nam
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0003
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Ngoại khoa
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Ngoại
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                10 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status success">
+                                Đang làm việc
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button class="action-btn">
+                                    👁
+                                </button>
+
+                                <button class="action-btn">
+                                    ✏️
+                                </button>
+
+                                <button class="action-btn">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- DOCTOR 4 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    LA
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Lê Anh
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0004
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Nhi khoa
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Nhi
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                8 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status warning">
+                                Nghỉ phép
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button class="action-btn">
+                                    👁
+                                </button>
+
+                                <button class="action-btn">
+                                    ✏️
+                                </button>
+
+                                <button class="action-btn">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- DOCTOR 5 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    HT
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Hoàng Thảo
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0005
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Da liễu
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Da liễu
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                7 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status success">
+                                Đang làm việc
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button class="action-btn">
+                                    👁
+                                </button>
+
+                                <button class="action-btn">
+                                    ✏️
+                                </button>
+
+                                <button class="action-btn">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- DOCTOR 6 -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <div class="doctor-avatar">
+                                    VD
+                                </div>
+
+                                <div>
+
+                                    <span class="doctor-name">
+                                        BS. Vũ Đức
+                                    </span>
+
+                                    <span class="doctor-id">
+                                        BS-0006
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="specialty">
+                                Nội khoa
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="department">
+                                Khoa Nội
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="experience">
+                                11 năm
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status success">
+                                Đang làm việc
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button class="action-btn">
+                                    👁
+                                </button>
+
+                                <button class="action-btn">
+                                    ✏️
+                                </button>
+
+                                <button class="action-btn">
+                                    🗑
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- =====================================
+             PAGINATION
+             ===================================== -->
+
+        <div class="pagination">
+
+            <span class="pagination-info">
+
+                Hiển thị 1–6 trong tổng số 48 bác sĩ
+
+            </span>
+
+
+            <div class="pages">
+
+                <button class="page-btn">
+                    ‹
+                </button>
+
+                <button class="page-btn active">
+                    1
+                </button>
+
+                <button class="page-btn">
+                    2
+                </button>
+
+                <button class="page-btn">
+                    3
+                </button>
+
+                <button class="page-btn">
+                    4
+                </button>
+
+                <button class="page-btn">
+                    5
+                </button>
+
+                <button class="page-btn">
+                    ›
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+```
+
+</div>
+
+</body>
+</html>
+

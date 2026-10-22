@@ -1,7 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
+
+// Bật CORS cho phép mọi nguồn truy cập từ Frontend
+app.use(cors());
+app.use(express.json());
 
 const targets = {
     auth: process.env.AUTH_SERVICE_URL || "http://auth-service:3001",
@@ -9,8 +14,6 @@ const targets = {
     appointments: process.env.APPOINTMENT_SERVICE_URL || "http://appointment-service:3003",
     medicalRecords: process.env.MEDICAL_RECORD_SERVICE_URL || "http://medical-record-service:3004"
 };
-
-app.use(express.json());
 
 function cleanHeaders(headers) {
     const nextHeaders = Object.assign({}, headers);
@@ -96,23 +99,24 @@ app.get("/api/services", async function(request, response) {
     });
 });
 
+// Sử dụng request.url để tự động map chuẩn xác các endpoint sang service con
 app.use("/api/auth", function(request, response) {
-    const targetUrl = targets.auth + request.originalUrl.replace(/^\/api/, "");
+    const targetUrl = targets.auth + request.url;
     forwardRequest(request, response, targetUrl, "auth-service");
 });
 
 app.use("/api/patients", function(request, response) {
-    const targetUrl = targets.patients + request.originalUrl.replace(/^\/api/, "");
+    const targetUrl = targets.patients + request.url;
     forwardRequest(request, response, targetUrl, "patient-service");
 });
 
 app.use("/api/appointments", function(request, response) {
-    const targetUrl = targets.appointments + request.originalUrl.replace(/^\/api/, "");
+    const targetUrl = targets.appointments + request.url;
     forwardRequest(request, response, targetUrl, "appointment-service");
 });
 
 app.use("/api/medical-records", function(request, response) {
-    const targetUrl = targets.medicalRecords + request.originalUrl.replace(/^\/api/, "");
+    const targetUrl = targets.medicalRecords + request.url;
     forwardRequest(request, response, targetUrl, "medical-record-service");
 });
 

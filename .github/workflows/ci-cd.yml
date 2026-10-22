@@ -33,18 +33,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/medicloud-${{ matrix.service }}:latest
 
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Executing remote deployment via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VM_HOST }}
-          username: ${{ secrets.VM_USER }}
-          key: ${{ secrets.VM_SSH_KEY }}
-          script: |
-            cd ~/medicloud
-            git pull
-            sudo docker compose pull
-            sudo docker compose up -d --remove-orphans
+ 

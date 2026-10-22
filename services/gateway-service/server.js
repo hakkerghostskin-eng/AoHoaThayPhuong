@@ -119,3 +119,7 @@ app.use("/api/medical-records", function(request, response) {
     const targetUrl = targets.medicalRecords + request.originalUrl.replace(/^\/api/, "");
     forwardRequest(request, response, targetUrl, "medical-record-service");
 });
+
+app.listen(port, function() {
+    console.log("gateway-service listening on port " + port);
+});

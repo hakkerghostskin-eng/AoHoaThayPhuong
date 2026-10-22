@@ -31,6 +31,8 @@ jobs:
           context: ./services/${{ matrix.service }}
           file: ./services/${{ matrix.service }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/medicloud-${{ matrix.service }}:latest
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/medicloud-${{ matrix.service }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/medicloud-${{ matrix.service }}:${{ github.run_number }}
 
  

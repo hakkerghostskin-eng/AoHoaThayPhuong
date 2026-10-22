@@ -101,25 +101,21 @@ app.get("/api/services", async function(request, response) {
 
 // Sử dụng request.url để tự động map chuẩn xác các endpoint sang service con
 app.use("/api/auth", function(request, response) {
-    const targetUrl = targets.auth + request.url;
+    const targetUrl = targets.auth + request.originalUrl.replace(/^\/api/, "");
     forwardRequest(request, response, targetUrl, "auth-service");
 });
 
 app.use("/api/patients", function(request, response) {
-    const targetUrl = targets.patients + request.url;
+    const targetUrl = targets.patients + request.originalUrl.replace(/^\/api/, "");
     forwardRequest(request, response, targetUrl, "patient-service");
 });
 
 app.use("/api/appointments", function(request, response) {
-    const targetUrl = targets.appointments + request.url;
+    const targetUrl = targets.appointments + request.originalUrl.replace(/^\/api/, "");
     forwardRequest(request, response, targetUrl, "appointment-service");
 });
 
 app.use("/api/medical-records", function(request, response) {
-    const targetUrl = targets.medicalRecords + request.url;
+    const targetUrl = targets.medicalRecords + request.originalUrl.replace(/^\/api/, "");
     forwardRequest(request, response, targetUrl, "medical-record-service");
-});
-
-app.listen(port, function() {
-    console.log("gateway-service listening on port " + port);
 });
